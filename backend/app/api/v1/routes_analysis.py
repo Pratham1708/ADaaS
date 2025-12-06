@@ -930,7 +930,7 @@ async def get_report_for_job(job_id: str, format: str = "pdf"):
     return await generate_report_from_job(request)
 
 
-@router.post("/analysis/survival/report")
+@router.api_route("/analysis/survival/report", methods=["GET", "POST"])
 async def generate_survival_report(dataset_id: str, format: str = "pdf"):
     """
     Generate report for survival analysis.
@@ -961,7 +961,7 @@ async def generate_survival_report(dataset_id: str, format: str = "pdf"):
     return await get_report_for_job(job_id, format)
 
 
-@router.post("/analysis/glm/report")
+@router.api_route("/analysis/glm/report", methods=["GET", "POST"])
 async def generate_glm_report(
     dataset_id: str,
     target_col: str,
@@ -1003,7 +1003,7 @@ async def generate_glm_report(
     return await get_report_for_job(job_id, format)
 
 
-@router.post("/analysis/ml-survival/report")
+@router.api_route("/analysis/ml-survival/report", methods=["GET", "POST"])
 async def generate_ml_survival_report(
     dataset_id: str,
     time_col: str = 'time',
@@ -1081,7 +1081,7 @@ async def generate_mortality_report(dataset_id: str, format: str = "pdf"):
         raise HTTPException(status_code=500, detail=f"Report generation failed: {str(e)}")
 
 
-@router.post("/analysis/timeseries/report")
+@router.api_route("/analysis/timeseries/report", methods=["GET", "POST"])
 async def generate_timeseries_report(
     dataset_id: str,
     date_col: Optional[str] = None,
