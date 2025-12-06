@@ -15,19 +15,38 @@ def ensure_dirs() -> None:
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def create_job(job_id: str, job_data: Dict[str, Any]) -> None:
+def create_job(dataset_id: str, analysis_type: str, params: Dict[str, Any] = None, **kwargs) -> str:
     """
     Create a new job entry.
     
     Args:
+        dataset_id: Dataset identifier
+        analysis_type: Type of analysis
+        params: Analysis parameters
+        **kwargs: Additional job metadata
+        
+    Returns:
         job_id: Unique job identifier
-        job_data: Job metadata dictionary
     """
+    import uuid
     ensure_dirs()
+    
+    job_id = f"job_{uuid.uuid4().hex[:8]}"
+    job_data = {
+        "job_id": job_id,
+        "dataset_id": dataset_id,
+        "analysis_type": analysis_type,
+        "params": params or {},
+        "status": "pending",
+        **kwargs
+    }
+    
     job_file = JOBS_DIR / f"{job_id}.json"
     
     with open(job_file, 'w') as f:
         json.dump(job_data, f, indent=2)
+    
+    return job_id
 
 
 def get_job(job_id: str) -> Optional[Dict[str, Any]]:
@@ -61,7 +80,9 @@ def update_job(job_id: str, updates: Dict[str, Any]) -> None:
     job_data = get_job(job_id)
     if job_data:
         job_data.update(updates)
-        create_job(job_id, job_data)
+        job_file = JOBS_DIR / f"{job_id}.json"
+        with open(job_file, 'w') as f:
+            json.dump(job_data, f, indent=2)
 
 
 def save_result(job_id: str, result_data: Dict[str, Any]) -> str:
