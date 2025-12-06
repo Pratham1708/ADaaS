@@ -440,7 +440,7 @@ async def start_timeseries_analysis(request: TimeSeriesRequest) -> Dict:
         csv_path = str(max(possible_files, key=lambda p: p.stat().st_mtime))
     
     # Create job
-    job = create_job(
+    job_id = create_job(
         dataset_id=request.dataset_id,
         analysis_type="timeseries",
         params={
@@ -457,7 +457,7 @@ async def start_timeseries_analysis(request: TimeSeriesRequest) -> Dict:
         # Enqueue job
         task_queue.enqueue(
             process_timeseries_job,
-            job["job_id"],
+            job_id,
             csv_path,
             request.date_col,
             request.value_col,
@@ -469,7 +469,7 @@ async def start_timeseries_analysis(request: TimeSeriesRequest) -> Dict:
     else:
         # Run synchronously (fallback for dev)
         process_timeseries_job(
-            job["job_id"],
+            job_id,
             csv_path,
             request.date_col,
             request.value_col,
@@ -478,10 +478,7 @@ async def start_timeseries_analysis(request: TimeSeriesRequest) -> Dict:
             request.confidence_level
         )
     
-    return {
-        "job_id": job["job_id"],
-        "status": "queued"
-    }
+    return {"job_id": job_id}
 
 
 @router.get("/analysis/timeseries/results/{job_id}")
