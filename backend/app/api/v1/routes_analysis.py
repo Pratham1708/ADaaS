@@ -1047,7 +1047,7 @@ async def generate_ml_survival_report(
     return await get_report_for_job(job_id, format)
 
 
-@router.post("/analysis/mortality/report")
+@router.api_route("/analysis/mortality/report", methods=["GET", "POST"])
 async def generate_mortality_report(dataset_id: str, format: str = "pdf"):
     """
     Generate report for mortality analysis.
