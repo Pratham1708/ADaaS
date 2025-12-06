@@ -7,10 +7,6 @@ services:
     plan: free  # FREE TIER - 750 hours/month
     buildCommand: "pip install -r backend/requirements.txt && pip install -r backend/ml_survival_requirements.txt"
     startCommand: "cd backend && gunicorn app.main:app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --timeout 120"
-    disk:
-      name: adaas-data
-      mountPath: /data
-      sizeGB: 1  # FREE: Up to 1GB persistent storage
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.0
@@ -24,8 +20,6 @@ services:
         sync: false  # Set manually (Upstash password)
       - key: ALLOWED_ORIGINS
         sync: false  # Set manually (e.g., https://your-app.vercel.app,http://localhost:3000)
-      - key: RENDER
-        value: true
 
   # Background Worker (FREE TIER)
   - type: worker
@@ -35,10 +29,6 @@ services:
     plan: free  # FREE TIER - 750 hours/month
     buildCommand: "pip install -r backend/requirements.txt && pip install -r backend/ml_survival_requirements.txt"
     startCommand: "cd backend && python -m app.workers.rq_worker"
-    disk:
-      name: adaas-data
-      mountPath: /data
-      sizeGB: 1  # Shared with web service
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.0
@@ -50,5 +40,3 @@ services:
         value: 6379
       - key: REDIS_PASSWORD
         sync: false
-      - key: RENDER
-        value: true

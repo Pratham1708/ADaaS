@@ -1,20 +1,12 @@
-"""JSON-based job store for tracking analysis jobs."""
-import json
-import uuid
-from datetime import datetime, timezone
+"""Job store for managing analysis job metadata and results."""
 from pathlib import Path
-from typing import Dict, Optional, List
-import os
+import json
+from typing import Dict, Any, Optional
 
-# Use /data for Render persistent disk, fallback to local for development
-if os.getenv("RENDER"):
-    JOBS_DIR = Path("/data/jobs")
-    RESULTS_DIR = Path("/data/analysis_results")
-else:
-    # Get project root
-    PROJECT_ROOT = Path(__file__).parent.parent.parent
-    JOBS_DIR = PROJECT_ROOT / "backend" / "jobs"
-    RESULTS_DIR = PROJECT_ROOT / "backend" / "analysis_results"
+# Use local directories for job storage (ephemeral on free tier)
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+JOBS_DIR = PROJECT_ROOT / "backend" / "jobs"
+RESULTS_DIR = PROJECT_ROOT / "backend" / "analysis_results"
 
 
 def ensure_dirs() -> None:
@@ -23,101 +15,96 @@ def ensure_dirs() -> None:
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def generate_job_id() -> str:
-    """Generate a unique job ID with job_ prefix."""
-    return f"job_{uuid.uuid4().hex[:8]}"
-
-
-def get_timestamp() -> str:
-    """Get current timestamp in ISO 8601 format (UTC)."""
-    return datetime.now(timezone.utc).isoformat()
-
-
-def create_job(dataset_id: str, analysis_type: str, params: Optional[Dict] = None) -> Dict:
+def create_job(job_id: str, job_data: Dict[str, Any]) -> None:
     """
     Create a new job entry.
     
     Args:
-        dataset_id: The dataset to analyze
-        analysis_type: Type of analysis (survival, chainladder)
-        params: Optional analysis parameters
-        
-    Returns:
-        Job metadata dictionary
+        job_id: Unique job identifier
+        job_data: Job metadata dictionary
     """
     ensure_dirs()
-    
-    job_id = generate_job_id()
-    job_data = {
-        "job_id": job_id,
-        "dataset_id": dataset_id,
-        "analysis_type": analysis_type,
-        "params": params or {},
-        "status": "queued",
-        "created_at": get_timestamp(),
-        "updated_at": get_timestamp(),
-        "result_path": None,
-        "error": None
-    }
-    
     job_file = JOBS_DIR / f"{job_id}.json"
-    with open(job_file, "w") as f:
-        json.dump(job_data, f, indent=2)
     
-    return job_data
+    with open(job_file, 'w') as f:
+        json.dump(job_data, f, indent=2)
 
 
-def update_job(job_id: str, **kwargs) -> Dict:
+def get_job(job_id: str) -> Optional[Dict[str, Any]]:
+    """
+    Get job metadata by ID.
+    
+    Args:
+        job_id: Job identifier
+        
+    Returns:
+        Job metadata dictionary or None if not found
+    """
+    ensure_dirs()
+    job_file = JOBS_DIR / f"{job_id}.json"
+    
+    if not job_file.exists():
+        return None
+    
+    with open(job_file, 'r') as f:
+        return json.load(f)
+
+
+def update_job(job_id: str, updates: Dict[str, Any]) -> None:
     """
     Update job metadata.
     
     Args:
-        job_id: The job ID to update
-        **kwargs: Fields to update (status, result_path, error, etc.)
-        
-    Returns:
-        Updated job metadata
+        job_id: Job identifier
+        updates: Dictionary of fields to update
     """
-    job_file = JOBS_DIR / f"{job_id}.json"
-    
-    if not job_file.exists():
-        raise FileNotFoundError(f"Job {job_id} not found")
-    
-    with open(job_file, "r") as f:
-        job_data = json.load(f)
-    
-    # Update fields
-    for key, value in kwargs.items():
-        job_data[key] = value
-    
-    job_data["updated_at"] = get_timestamp()
-    
-    with open(job_file, "w") as f:
-        json.dump(job_data, f, indent=2)
-    
-    return job_data
+    job_data = get_job(job_id)
+    if job_data:
+        job_data.update(updates)
+        create_job(job_id, job_data)
 
 
-def get_job(job_id: str) -> Dict:
+def save_result(job_id: str, result_data: Dict[str, Any]) -> str:
     """
-    Get job metadata.
+    Save analysis results.
     
     Args:
-        job_id: The job ID to retrieve
+        job_id: Job identifier
+        result_data: Analysis results dictionary
         
     Returns:
-        Job metadata dictionary
+        Path to saved results file
     """
-    job_file = JOBS_DIR / f"{job_id}.json"
+    ensure_dirs()
+    result_file = RESULTS_DIR / f"{job_id}_result.json"
     
-    if not job_file.exists():
-        raise FileNotFoundError(f"Job {job_id} not found")
+    with open(result_file, 'w') as f:
+        json.dump(result_data, f, indent=2)
     
-    with open(job_file, "r") as f:
+    return str(result_file)
+
+
+def get_result(job_id: str) -> Optional[Dict[str, Any]]:
+    """
+    Get analysis results by job ID.
+    
+    Args:
+        job_id: Job identifier
+        
+    Returns:
+        Results dictionary or None if not found
+    """
+    ensure_dirs()
+    result_file = RESULTS_DIR / f"{job_id}_result.json"
+    
+    if not result_file.exists():
+        return None
+    
+    with open(result_file, 'r') as f:
         return json.load(f)
 
 
-def list_jobs() -> List[Dict]:
+def list_jobs() -> list:
     """
     List all jobs.
     
@@ -127,50 +114,60 @@ def list_jobs() -> List[Dict]:
     ensure_dirs()
     jobs = []
     
-    for job_file in JOBS_DIR.glob("job_*.json"):
-        with open(job_file, "r") as f:
+    for job_file in JOBS_DIR.glob("*.json"):
+        with open(job_file, 'r') as f:
             jobs.append(json.load(f))
-    
-    # Sort by created_at descending
-    jobs.sort(key=lambda x: x["created_at"], reverse=True)
     
     return jobs
 
 
-def save_result(job_id: str, result_data: Dict) -> str:
+def delete_job(job_id: str) -> bool:
     """
-    Save analysis result.
+    Delete a job and its results.
     
     Args:
-        job_id: The job ID
-        result_data: Analysis result dictionary
+        job_id: Job identifier
         
     Returns:
-        Path to saved result file
+        True if deleted, False if not found
     """
     ensure_dirs()
+    job_file = JOBS_DIR / f"{job_id}.json"
+    result_file = RESULTS_DIR / f"{job_id}_result.json"
     
-    result_file = RESULTS_DIR / f"{job_id}.json"
-    with open(result_file, "w") as f:
-        json.dump(result_data, f, indent=2)
+    deleted = False
     
-    return str(result_file)
+    if job_file.exists():
+        job_file.unlink()
+        deleted = True
+    
+    if result_file.exists():
+        result_file.unlink()
+        deleted = True
+    
+    return deleted
 
 
-def get_result(job_id: str) -> Dict:
+def get_jobs_by_dataset(dataset_id: str) -> list:
     """
-    Get analysis result.
+    Get all jobs for a specific dataset.
     
     Args:
-        job_id: The job ID
+        dataset_id: Dataset identifier
         
     Returns:
-        Analysis result dictionary
+        List of job metadata dictionaries
     """
-    result_file = RESULTS_DIR / f"{job_id}.json"
+    all_jobs = list_jobs()
+    return [job for job in all_jobs if job.get('dataset_id') == dataset_id]
+
+
+def get_job_count() -> int:
+    """
+    Get total number of jobs.
     
-    if not result_file.exists():
-        raise FileNotFoundError(f"Result for job {job_id} not found")
-    
-    with open(result_file, "r") as f:
-        return json.load(f)
+    Returns:
+        Number of jobs
+    """
+    ensure_dirs()
+    return len(list(JOBS_DIR.glob("*.json")))

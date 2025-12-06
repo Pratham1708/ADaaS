@@ -1,11 +1,10 @@
 """File storage utilities for handling uploaded CSV files."""
-import os
 from pathlib import Path
 from typing import Tuple
 from fastapi import UploadFile
 import uuid
 
-# Get project root (parent of backend directory)
+# Use local directory for file uploads (ephemeral on free tier)
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 UPLOAD_DIR = PROJECT_ROOT / "backend" / "uploaded_files"
 
