@@ -1,0 +1,90 @@
+{
+  "ds_547b9c4e": {
+    "dataset_id": "ds_547b9c4e",
+    "filename": "SurvivalCovid.csv",
+    "file_path": "E:\\ADAAS\\backend\\backend\\uploaded_files\\SurvivalCovid.csv",
+    "uploaded_at": "2025-12-04T20:16:53.930033+00:00"
+  },
+  "ds_afb2939e": {
+    "dataset_id": "ds_afb2939e",
+    "filename": "tabell.csv",
+    "file_path": "E:\\ADAAS\\backend\\backend\\uploaded_files\\tabell.csv",
+    "uploaded_at": "2025-12-05T10:20:23.028651+00:00"
+  },
+  "ds_afb2939e_cleaned_c250d2b3": {
+    "dataset_id": "ds_afb2939e_cleaned_c250d2b3",
+    "filename": "ds_afb2939e_cleaned_c250d2b3.csv",
+    "file_path": "E:\\ADAAS\\backend\\cleaned_datasets\\ds_afb2939e_cleaned_c250d2b3.csv",
+    "uploaded_at": "2025-12-05T10:26:57.204876+00:00",
+    "original_dataset_id": "ds_afb2939e",
+    "is_cleaned": true
+  },
+  "ds_0c846e74": {
+    "dataset_id": "ds_0c846e74",
+    "filename": "SurvivalCovid.csv",
+    "file_path": "E:\\ADAAS\\backend\\backend\\uploaded_files\\SurvivalCovid.csv",
+    "uploaded_at": "2025-12-05T10:45:49.612499+00:00"
+  },
+  "ds_5a3becbe": {
+    "dataset_id": "ds_5a3becbe",
+    "filename": "freMTPL2freq.csv",
+    "file_path": "E:\\ADAAS\\backend\\backend\\uploaded_files\\freMTPL2freq.csv",
+    "uploaded_at": "2025-12-05T10:50:58.343344+00:00"
+  },
+  "ds_a6427455": {
+    "dataset_id": "ds_a6427455",
+    "filename": "tabell.csv",
+    "file_path": "E:\\ADAAS\\backend\\backend\\uploaded_files\\tabell.csv",
+    "uploaded_at": "2025-12-05T10:57:14.115952+00:00"
+  },
+  "ds_9b457ab0": {
+    "dataset_id": "ds_9b457ab0",
+    "filename": "daily-minimum-temperatures-in-me.csv",
+    "file_path": "E:\\ADAAS\\backend\\backend\\uploaded_files\\daily-minimum-temperatures-in-me.csv",
+    "uploaded_at": "2025-12-05T10:57:28.465586+00:00"
+  },
+  "ds_dd6c4609": {
+    "dataset_id": "ds_dd6c4609",
+    "filename": "daily-minimum-temperatures-in-me.csv",
+    "file_path": "E:\\ADAAS\\backend\\backend\\uploaded_files\\daily-minimum-temperatures-in-me.csv",
+    "uploaded_at": "2025-12-05T11:04:22.194470+00:00"
+  },
+  "ds_e0b292e8": {
+    "dataset_id": "ds_e0b292e8",
+    "filename": "Electric_Production.csv",
+    "file_path": "E:\\ADAAS\\backend\\backend\\uploaded_files\\Electric_Production.csv",
+    "uploaded_at": "2025-12-05T11:12:12.098134+00:00"
+  },
+  "ds_53d74341": {
+    "dataset_id": "ds_53d74341",
+    "filename": "SurvivalCovid.csv",
+    "file_path": "E:\\ADAAS\\backend\\backend\\uploaded_files\\SurvivalCovid.csv",
+    "uploaded_at": "2025-12-05T15:46:42.567783+00:00"
+  },
+  "ds_20ae508c": {
+    "dataset_id": "ds_20ae508c",
+    "filename": "SurvivalCovid.csv",
+    "file_path": "E:\\ADAAS\\backend\\backend\\uploaded_files\\SurvivalCovid.csv",
+    "uploaded_at": "2025-12-05T15:50:40.673426+00:00"
+  },
+  "ds_20ae508c_cleaned_662b959e": {
+    "dataset_id": "ds_20ae508c_cleaned_662b959e",
+    "filename": "ds_20ae508c_cleaned_662b959e.csv",
+    "file_path": "E:\\ADAAS\\backend\\cleaned_datasets\\ds_20ae508c_cleaned_662b959e.csv",
+    "uploaded_at": "2025-12-05T15:52:13.030158+00:00",
+    "original_dataset_id": "ds_20ae508c",
+    "is_cleaned": true
+  },
+  "ds_9e2ce0ba": {
+    "dataset_id": "ds_9e2ce0ba",
+    "filename": "daily-minimum-temperatures-in-me.csv",
+    "file_path": "E:\\ADAAS\\backend\\backend\\uploaded_files\\daily-minimum-temperatures-in-me.csv",
+    "uploaded_at": "2025-12-05T15:53:13.816084+00:00"
+  },
+  "ds_24557510": {
+    "dataset_id": "ds_24557510",
+    "filename": "tabell.csv",
+    "file_path": "E:\\ADAAS\\backend\\backend\\uploaded_files\\tabell.csv",
+    "uploaded_at": "2025-12-05T15:55:37.901285+00:00"
+  }
+}

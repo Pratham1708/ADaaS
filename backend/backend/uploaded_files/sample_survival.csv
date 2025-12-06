@@ -1,0 +1,9 @@
+time,event,group,age
+5,1,control,65
+10,0,treated,72
+3,1,control,58
+8,0,treated,70
+12,1,control,68
+15,0,control,71
+6,1,treated,63
+9,0,treated,69

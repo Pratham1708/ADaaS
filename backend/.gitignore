@@ -1,0 +1,36 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Test coverage
+.coverage
+htmlcov/
+
+# Job and result files (keep directories)
+backend/jobs/*.json
+backend/analysis_results/*.json
+!backend/jobs/.gitkeep
+!backend/analysis_results/.gitkeep
+
+# Uploaded files (keep sample files)
+backend/uploaded_files/*.csv
+!backend/uploaded_files/sample_*.csv
