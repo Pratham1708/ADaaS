@@ -20,23 +20,3 @@ services:
         sync: false  # Set manually (Upstash password)
       - key: ALLOWED_ORIGINS
         sync: false  # Set manually (e.g., https://your-app.vercel.app,http://localhost:3000)
-
-  # Background Worker (FREE TIER)
-  - type: worker
-    name: adaas-worker
-    env: python
-    region: oregon
-    plan: free  # FREE TIER - 750 hours/month
-    buildCommand: "pip install -r backend/requirements.txt && pip install -r backend/ml_survival_requirements.txt"
-    startCommand: "cd backend && python -m app.workers.rq_worker"
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.10.0
-      - key: GEMINI_API_KEY
-        sync: false
-      - key: REDIS_HOST
-        sync: false
-      - key: REDIS_PORT
-        value: 6379
-      - key: REDIS_PASSWORD
-        sync: false
