@@ -5,7 +5,7 @@ import Sidebar from './Sidebar';
 import NavBar from './NavBar';
 import { Loader2 } from 'lucide-react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://adaas-backend.onrender.com';
 
 interface DashboardLayoutProps {
     children: React.ReactNode;

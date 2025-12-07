@@ -4,7 +4,7 @@ import { MessageSquare, Send, Loader, Sparkles, Info, AlertCircle } from 'lucide
 import axios from 'axios';
 
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://adaas-backend.onrender.com';
 
 interface NLQProps {
     datasetId: string;
