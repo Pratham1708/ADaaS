@@ -22,7 +22,7 @@ try:
     from rq import Queue
     import os
     
-    redis_host = os.getenv("REDIS_HOST", "localhost")
+    redis_host = os.getenv("REDIS_HOST", "https://adaas-backend.onrender.com")
     redis_port = int(os.getenv("REDIS_PORT", "6379"))
     redis_password = os.getenv("REDIS_PASSWORD", None)
     
