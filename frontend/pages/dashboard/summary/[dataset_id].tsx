@@ -9,7 +9,7 @@ import {
     Activity, BarChart3, Brain, Loader2, Play, Clock
 } from 'lucide-react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://adaas-backend.onrender.com';
 
 function SummaryPageContent() {
     const router = useRouter();

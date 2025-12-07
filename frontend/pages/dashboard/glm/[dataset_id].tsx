@@ -5,7 +5,7 @@ import DashboardLayout from '../../../components/DashboardLayout';
 import ProtectedRoute from '../../../components/ProtectedRoute';
 import { BarChart3, Loader2, Info, Play, Clock, CheckCircle } from 'lucide-react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://adaas-backend.onrender.com';
 
 function GLMPageContent() {
     const router = useRouter();

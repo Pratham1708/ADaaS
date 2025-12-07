@@ -5,7 +5,7 @@ import KMChart from '../../components/KMChart';
 import LifeTable from '../../components/LifeTable';
 import { BarChart3, AlertTriangle, Loader2, Upload, Activity } from 'lucide-react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://adaas-backend.onrender.com';
 
 export default function AnalysisPage() {
     const router = useRouter();

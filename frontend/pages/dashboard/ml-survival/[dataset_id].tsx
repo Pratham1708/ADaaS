@@ -5,7 +5,7 @@ import DashboardLayout from '../../../components/DashboardLayout';
 import ProtectedRoute from '../../../components/ProtectedRoute';
 import { Brain, Loader2, Info, Activity, TrendingUp, BarChart3, CheckCircle, Clock } from 'lucide-react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://adaas-backend.onrender.com';
 
 function MLSurvivalPageContent() {
     const router = useRouter();

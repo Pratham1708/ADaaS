@@ -10,7 +10,7 @@ import {
     Bot, TrendingUp, CheckCircle, FileText, BarChart3, AlertTriangle, Loader2, Database
 } from 'lucide-react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://adaas-backend.onrender.com';
 
 function AIInsightsPageContent() {
     const router = useRouter();

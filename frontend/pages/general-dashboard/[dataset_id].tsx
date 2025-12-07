@@ -12,7 +12,7 @@ import {
     TrendingUp, Users, Skull, Clock, FileText, ArrowLeft, Upload, Activity
 } from 'lucide-react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://adaas-backend.onrender.com';
 
 function GeneralDashboardContent() {
     const router = useRouter();
